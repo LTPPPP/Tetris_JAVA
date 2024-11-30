@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-public class Board extends JPanel implements ActionListener {
+class Board extends JPanel implements ActionListener {
 
     private final int BOARD_WIDTH = 10;
     private final int BOARD_HEIGHT = 22;
@@ -151,6 +151,38 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    // Getters for external access
+    public Shape getCurPiece() {
+        return curPiece;
+    }
+
+    public int getCurX() {
+        return curX;
+    }
+
+    public int getCurY() {
+        return curY;
+    }
+
+    public boolean tryMoveExternal(Shape newPiece, int newX, int newY) {
+        if (isStarted && !isPaused) {
+            return tryMove(newPiece, newX, newY);
+        }
+        return false;
+    }
+
+    public void oneLineDownExternal() {
+        if (isStarted && !isPaused) {
+            oneLineDown();
+        }
+    }
+
+    public void dropDownExternal() {
+        if (isStarted && !isPaused) {
+            dropDown();
+        }
+    }
+
     private int squareWidth() {
         return (int) getSize().getWidth() / BOARD_WIDTH;
     }
@@ -180,7 +212,6 @@ public class Board extends JPanel implements ActionListener {
             curPiece.setShape(Shape.Tetrominoes.NoShape);
             timer.stop();
             isStarted = false;
-            // Game Over
             JOptionPane.showMessageDialog(this, "Game Over", "Tetris", JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -321,3 +352,4 @@ public class Board extends JPanel implements ActionListener {
         g.drawString("Score: " + numLinesRemoved, 10, 15);
     }
 }
+        
